@@ -10,8 +10,17 @@ app.use(express.json());
 app.use(cors());
 //Middleware
 
-// 4W4dihvqMlSIA7Bc
-// movieAdmin
+const movieCollection = client.db("movieDB").collection("movie");
+
+app.post("/movies", async (req, res) => {
+  const movie = req.body;
+  const result = await movieCollection.insertOne(movie);
+  res.json(result);
+});
+app.get("/movies", async (req, res) => {
+  const movies = await movieCollection.find().sort({ _id: -1 }).toArray();
+  res.json(movies);
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Express");
