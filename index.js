@@ -25,10 +25,25 @@ app.post("/favorite", async (req, res) => {
   const result = await favoriteCollection.insertOne(favorite);
   res.json(result);
 });
+
+app.get("/favorite", async (req, res) => {
+  const email = req.query.userEmail;
+  if (email) {
+    const favoriteData = await favoriteCollection.find({ email }).toArray();
+    return res.send(favoriteData);
+  }
+  const favoriteData = await favoriteCollection
+    .find()
+    .sort({ _id: -1 })
+    .toArray();
+  return res.send(favoriteData);
+});
+
 app.get("/movies", async (req, res) => {
   const movies = await movieCollection.find().sort({ _id: -1 }).toArray();
   res.json(movies);
 });
+
 app.get("/movies/:id", async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
