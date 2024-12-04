@@ -12,10 +12,17 @@ app.use(cors());
 //Middleware
 
 const movieCollection = client.db("movieDB").collection("movie");
+const favoriteCollection = client.db("movieDB").collection("favorite");
 
 app.post("/movies", async (req, res) => {
   const movie = req.body;
   const result = await movieCollection.insertOne(movie);
+  res.json(result);
+});
+
+app.post("/favorite", async (req, res) => {
+  const favorite = req.body;
+  const result = await favoriteCollection.insertOne(favorite);
   res.json(result);
 });
 app.get("/movies", async (req, res) => {
