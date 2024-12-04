@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { connection, client } = require("./DB/connectDB");
+const { ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 5000;
 connection();
@@ -20,6 +21,12 @@ app.post("/movies", async (req, res) => {
 app.get("/movies", async (req, res) => {
   const movies = await movieCollection.find().sort({ _id: -1 }).toArray();
   res.json(movies);
+});
+app.get("/movies/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const movie = await movieCollection.findOne(query);
+  res.send(movie);
 });
 
 app.get("/", (req, res) => {
