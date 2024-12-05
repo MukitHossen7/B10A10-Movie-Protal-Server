@@ -38,7 +38,18 @@ app.get("/favorite", async (req, res) => {
     .toArray();
   return res.send(favoriteData);
 });
-
+app.get("/favorite/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const favorite = await favoriteCollection.findOne(query);
+  res.send(favorite);
+});
+app.delete("/favorite/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await favoriteCollection.deleteOne(query);
+  res.json(result);
+});
 app.get("/movies", async (req, res) => {
   const movies = await movieCollection.find().sort({ _id: -1 }).toArray();
   res.json(movies);
