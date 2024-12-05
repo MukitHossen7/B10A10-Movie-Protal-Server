@@ -56,6 +56,25 @@ app.delete("/movies/:id", async (req, res) => {
   const result = await movieCollection.deleteOne(query);
   res.json(result);
 });
+app.patch("/movies/:id", async (req, res) => {
+  const id = req.params.id;
+  const movie = req.body;
+  const query = { _id: new ObjectId(id) };
+
+  const updatedMovie = {
+    $set: {
+      poster: movie.poster,
+      title: movie.title,
+      genre: movie.genre,
+      duration: movie.duration,
+      releaseYear: movie.releaseYear,
+      rate: movie.rate,
+      summary: movie.summary,
+    },
+  };
+  const result = await movieCollection.updateOne(query, updatedMovie);
+  res.json(result);
+});
 app.get("/", (req, res) => {
   res.send("Welcome to the Express");
 });
