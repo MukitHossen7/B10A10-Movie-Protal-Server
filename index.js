@@ -51,8 +51,16 @@ app.delete("/favorite/:id", async (req, res) => {
   res.json(result);
 });
 app.get("/movies", async (req, res) => {
+  const { searchParams } = req.query;
+  if (searchParams) {
+    const movies = await movieCollection
+      .find({ title: { $regex: searchParams, $options: "i" } })
+      .toArray();
+    return res.send(movies);
+  }
+
   const movies = await movieCollection.find().sort({ _id: -1 }).toArray();
-  res.json(movies);
+  return res.json(movies);
 });
 
 app.get("/movies/:id", async (req, res) => {
