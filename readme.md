@@ -22,3 +22,25 @@
 ## Server Live Link:
 
 -- https://server-side-navy.vercel.app/
+
+## Installation and Setup
+
+### Clone the repository
+
+- git clone https://github.com/your-username/movie-portal-backend.git
+- cd movie-portal-backend
+
+### Install dependencies
+
+- npm install
+
+### Start the Server
+
+- nodemon index.js / npm run dev
+
+## dependencies
+
+- "cors": "^2.8.5",
+- "dotenv": "^16.4.7",
+- "express": "^4.21.1",
+- "mongodb": "^6.11.0"
